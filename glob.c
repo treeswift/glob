@@ -63,7 +63,9 @@
 #include <errno.h>
 #include <glob.h>
 #include <limits.h>
+#ifdef HAS_PWD_H
 #include <pwd.h>
+#endif /* HAS_PWD_H */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -355,6 +357,7 @@ globexp2(const Char *ptr, const Char *pattern, glob_t *pglob,
 static const Char *
 globtilde(const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
 {
+#ifdef HAS_PWD_H
 	struct passwd pwstore, *pwd = NULL;
 	char *h, pwbuf[_PW_BUF_LEN];
 	const Char *p;
@@ -411,6 +414,9 @@ globtilde(const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
 	*b = EOS;
 
 	return patbuf;
+#else /* !HAS_PWD_H */
+	return pattern;
+#endif /* HAS_PWD_H */
 }
 
 static int
