@@ -116,6 +116,9 @@ typedef char Char;
 
 #endif
 
+#ifdef HAS_PWD_H
+extern uid_t getuid(void);
+#endif
 
 #define	CHAR(c)		((Char)((c)&M_ASCII))
 #define	META(c)		((Char)((c)|M_QUOTE))
